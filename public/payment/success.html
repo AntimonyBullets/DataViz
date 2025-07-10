@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - EconoViz</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            background: white;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            overflow: hidden;
+            max-width: 450px;
+            width: 90%;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .success-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #10b981, #34d399, #10b981);
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            animation: bounceIn 0.6s ease-out 0.2s both;
+        }
+
+        .success-icon::before {
+            content: '✓';
+            font-size: 2.5rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .success-text {
+            color: #1e293b;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .success-subtext {
+            color: #10b981;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .redirect-info {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 1s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .success-message {
+                padding: 2.5rem 2rem;
+                border-radius: 16px;
+            }
+
+            .success-icon {
+                width: 70px;
+                height: 70px;
+            }
+
+            .success-icon::before {
+                font-size: 2rem;
+            }
+
+            .success-text {
+                font-size: 1.3rem;
+            }
+
+            .success-subtext {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-message">
+        <div class="success-icon"></div>
+        <div class="success-text">
+            Payment Successful!
+        </div>
+        <div class="success-subtext">
+            You are now a Premium user
+        </div>
+        <div class="redirect-info">
+            Redirecting to home page...
+        </div>
+    </div>
+
+    <script>
+        // Redirect to home page after 2 seconds
+        setTimeout(() => {
+            window.location.href = '../home/home.html';
+        }, 2000);
+    </script>
+</body>
+</html>

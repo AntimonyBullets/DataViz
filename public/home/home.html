@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataViz - Economic Data Analytics</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="../css/logout.css">
+</head>
+<body>
+    <button class="logout-btn" id="logoutBtn">
+        <svg viewBox="0 0 24 24">
+            <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+        </svg>
+        <span>Logout</span>
+    </button>
+
+    <!-- Error Notification Popup -->
+    <div class="error-popup" id="errorPopup">
+        <div class="error-content">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+            <span id="errorMessage">Logout failed due to an error</span>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal-overlay" id="logoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                    </svg>
+                </div>
+                <h3>Confirm Logout</h3>
+                <p>Are you sure you want to logout?</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" id="cancelLogoutBtn">Cancel</button>
+                <button class="btn-confirm" id="confirmLogoutBtn">
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="logo">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 3v18h18v-2H5V3H3zm4 14h2v-6H7v6zm4 0h2V9h-2v8zm4 0h2v-4h-2v4z"/>
+                </svg>
+            </div>
+            
+            <h1>DataViz</h1>
+            
+            <p class="subtitle">
+                Transform complex economic data into actionable insights. Visualize and analyze GDP trends, FDI flows, business climate indicators, tax structures, and labor market dynamics with powerful interactive tools.
+            </p>
+            
+            <div class="buttons-container">
+                <button class="btn btn-primary" id="exploreBtn">
+                    Explore and Analyze Economic Data
+                </button>
+                
+                <button class="btn btn-secondary" id="upgradeBtn">
+                    Upgrade to Premium
+                </button>
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                        </svg>
+                    </div>
+                    <span>Interactive Charts</span>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                    </div>
+                    <span>Data Comparison</span>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9 11H7v6h2v-6zm4 0h-2v6h2v-6zm4 0h-2v6h2v-6zm2.5-5H19V4h-2v2H7V4H5v2H4.5C3.67 6 3 6.67 3 7.5S3.67 9 4.5 9H5v10c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9h.5c.83 0 1.5-.67 1.5-1.5S20.33 6 19.5 6z"/>
+                        </svg>
+                    </div>
+                    <span>Real-time Analysis</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="home.js"></script>
+</body>
+</html>

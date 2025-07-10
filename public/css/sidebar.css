@@ -1,0 +1,114 @@
+.sidebar {
+    width: 64px;
+    height: 100vh;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(100, 116, 139, 0.08);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 0 16px 0;
+    gap: 16px;
+}
+
+.sidebar-item {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.sidebar-item:hover {
+    background: #f1f5f9;
+}
+
+.sidebar-item.active {
+    background: #e0e7ff;
+}
+
+.sidebar-item svg {
+    width: 24px;
+    height: 24px;
+    fill: #64748b;
+}
+
+.sidebar-item.active svg {
+    fill: #4f46e5;
+}
+
+.sidebar-tooltip {
+    position: absolute;
+    left: 70px;
+    background: #1e293b;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.sidebar-item:hover .sidebar-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.sidebar-tooltip::before {
+    content: "";
+    position: absolute;
+    left: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-right-color: #1e293b;
+}
+
+.sidebar-home {
+    margin-top: auto;
+    margin-bottom: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.sidebar-home svg {
+    width: 28px;
+    height: 28px;
+    fill: #64748b;
+}
+
+.sidebar-home:hover {
+    background: #e0e7ff;
+    color: #2563eb;
+}
+
+.sidebar-home:hover svg {
+    fill: #2563eb;
+}
+
+.sidebar-separator {
+    width: 70%;
+    height: 1.5px;
+    background: #e5e7eb;
+    border-radius: 1px;
+    margin: 18px 0 10px 0;
+    align-self: center;
+    opacity: 0.85;
+}

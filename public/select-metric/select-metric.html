@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select a Metric - EconoViz</title>
+    <link rel="stylesheet" href="select-metric.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/logout.css">
+</head>
+<body>
+    <!-- Logout Button -->
+    <button class="logout-btn" id="logoutBtn">
+        <svg viewBox="0 0 24 24">
+            <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+        </svg>
+        <span>Logout</span>
+    </button>
+
+    <!-- Error Notification Popup -->
+    <div class="error-popup" id="errorPopup">
+        <div class="error-content">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+            <span id="errorMessage">Logout failed due to an error</span>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal-overlay" id="logoutModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                    </svg>
+                </div>
+                <h3>Confirm Logout</h3>
+                <p>Are you sure you want to logout?</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" id="cancelLogoutBtn">Cancel</button>
+                <button class="btn-confirm" id="confirmLogoutBtn">
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <aside class="sidebar">
+        <div class="sidebar-item active" data-category="macro">
+            <svg viewBox="0 0 24 24">
+                <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+            </svg>
+            <span class="sidebar-tooltip">Macro-economic Indicators</span>
+        </div>
+        <div class="sidebar-item" data-category="industry">
+            <svg viewBox="0 0 24 24">
+                <path d="M15.5 5H11l5 7h-4l4 8H4l5-8H5l4-7h4V3h2.5z"/>
+            </svg>
+        </div>
+        <div class="sidebar-separator"></div>
+        <div class="sidebar-item sidebar-home" id="sidebarHomeBtn" title="Home">
+            <svg viewBox="0 0 24 24">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="header">
+            <h1>Select a Metric</h1>
+            <p class="subtitle">Choose an economic indicator to explore and analyze data across countries</p>
+        </div>
+
+        <div id="metrics-container" class="metrics-grid">
+            <!-- Metrics will be inserted here by JavaScript -->
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading metrics...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="error" class="error">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+            </svg>
+            <p id="errorMessage"></p>
+        </div>
+    </main>
+
+    <script type="module" src="select-metric.js"></script>
+</body>
+</html>
