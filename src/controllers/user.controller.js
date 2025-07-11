@@ -5,6 +5,32 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 
+// Create email transporter function
+const createEmailTransporter = async () => {
+  if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
+    // Use Gmail for production
+    return nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_APP_PASSWORD
+      }
+    });
+  } else {
+    // Fallback to Ethereal for testing
+    const testAccount = await nodemailer.createTestAccount();
+    return nodemailer.createTransport({
+      host: testAccount.smtp.host,
+      port: testAccount.smtp.port,
+      secure: testAccount.smtp.secure,
+      auth: {
+        user: testAccount.user,
+        pass: testAccount.pass
+      }
+    });
+  }
+};
+
 const registerUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -42,38 +68,32 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Something went wrong while registering the user");
   }
 
-  //  Create Ethereal test account
-  const testAccount = await nodemailer.createTestAccount();
-
-  //  Create transporter using Ethereal
-  const transporter = nodemailer.createTransport({
-    host: testAccount.smtp.host,
-    port: testAccount.smtp.port,
-    secure: testAccount.smtp.secure,
-    auth: {
-      user: testAccount.user,
-      pass: testAccount.pass
-    }
-  });
+  // Create email transporter
+  const transporter = await createEmailTransporter();
 
   // Send verification email
   const verificationLink = `${process.env.BASE_URL}/verify.html?token=${verificationToken}`;
   const mailOptions = {
-    from: '"Test App" <no-reply@test.com>',
+    from: process.env.GMAIL_USER || '"Test App" <no-reply@test.com>',
     to: email,
-    subject: 'Verify Your Email',
+    subject: 'Verify Your Email - DataViz',
     html: `
       <h1>Email Verification</h1>
       <p>Please click the link below to verify your email address:</p>
-      <a href="${verificationLink}">Verify Email</a>
+      <a href="${verificationLink}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Verify Email</a>
       <p>This link will expire in 24 hours.</p>
+      <p>If you didn't create an account, you can safely ignore this email.</p>
     `
   };
 
   const info = await transporter.sendMail(mailOptions);
 
-  // Log preview link for testing
-  console.log("Preview Email URL:", nodemailer.getTestMessageUrl(info));
+  // Log preview link for testing (only for Ethereal)
+  if (!process.env.GMAIL_USER) {
+    console.log("Preview Email URL:", nodemailer.getTestMessageUrl(info));
+  } else {
+    console.log("Email sent successfully to:", email);
+  }
 
   return res.status(201).json(
     new ApiResponse(
@@ -145,38 +165,29 @@ const resendVerificationEmail = asyncHandler(async (req, res) => {
         { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
     );
 
-    //  Create Ethereal test account
-    const testAccount = await nodemailer.createTestAccount();
-
-    //  Create transporter using Ethereal
-    const transporter = nodemailer.createTransport({
-        host: testAccount.smtp.host,
-        port: testAccount.smtp.port,
-        secure: testAccount.smtp.secure,
-        auth: {
-            user: testAccount.user,
-            pass: testAccount.pass
-        }
-    });
+    // Create email transporter
+    const transporter = await createEmailTransporter();
 
     // Send verification email
     const verificationLink = `${process.env.BASE_URL}/verify.html?token=${verificationToken}`;
     const mailOptions = {
-        from: '"Test App" <no-reply@test.com>',
+        from: process.env.GMAIL_USER || '"Test App" <no-reply@test.com>',
         to: user.email,
-        subject: 'Verify Your Email',
+        subject: 'Verify Your Email - DataViz',
         html: `
             <h1>Email Verification</h1>
             <p>Please click the link below to verify your email address:</p>
-            <a href="${verificationLink}">Verify Email</a>
+            <a href="${verificationLink}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Verify Email</a>
             <p>This link will expire in 24 hours.</p>
         `
     };
 
     const info = await transporter.sendMail(mailOptions);
 
-    // Log preview link for testing
-    console.log("Preview Email URL:", nodemailer.getTestMessageUrl(info));
+    // Log preview link for testing (only for Ethereal)
+    if (!process.env.GMAIL_USER) {
+        console.log("Preview Email URL:", nodemailer.getTestMessageUrl(info));
+    }
 
     return res.status(200).json(
         new ApiResponse(
@@ -224,36 +235,29 @@ const loginUser = asyncHandler(async (req, res) => {
             { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
         );
 
-        // Create Ethereal test account
-        const testAccount = await nodemailer.createTestAccount();
-
-        // Create transporter using Ethereal
-        const transporter = nodemailer.createTransport({
-            host: testAccount.smtp.host,
-            port: testAccount.smtp.port,
-            secure: testAccount.smtp.secure,
-            auth: {
-                user: testAccount.user,
-                pass: testAccount.pass
-            }
-        });
+        // Create email transporter
+        const transporter = await createEmailTransporter();
 
         // Send verification email
         const verificationLink = `${process.env.BASE_URL}/verify.html?token=${verificationToken}`;
         const mailOptions = {
-            from: '"Test App" <no-reply@test.com>',
+            from: process.env.GMAIL_USER || '"Test App" <no-reply@test.com>',
             to: user.email,
-            subject: 'Verify Your Email',
+            subject: 'Verify Your Email - DataViz',
             html: `
                 <h1>Email Verification</h1>
                 <p>Please click the link below to verify your email address:</p>
-                <a href="${verificationLink}">Verify Email</a>
+                <a href="${verificationLink}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Verify Email</a>
                 <p>This link will expire in 24 hours.</p>
             `
         };
 
         const info = await transporter.sendMail(mailOptions);
-        console.log("Preview Email URL:", nodemailer.getTestMessageUrl(info));
+        
+        // Log preview link for testing (only for Ethereal)
+        if (!process.env.GMAIL_USER) {
+            console.log("Preview Email URL:", nodemailer.getTestMessageUrl(info));
+        }
 
         throw new ApiError(
             403,
@@ -316,30 +320,19 @@ const sendResetPasswordLink = asyncHandler(async (req, res) => {
         { expiresIn: '1h' } // Reset links typically expire sooner than regular tokens
     );
 
-    // Create Ethereal test account
-    const testAccount = await nodemailer.createTestAccount();
-
-    // Create transporter using Ethereal
-    const transporter = nodemailer.createTransport({
-        host: testAccount.smtp.host,
-        port: testAccount.smtp.port,
-        secure: testAccount.smtp.secure,
-        auth: {
-            user: testAccount.user,
-            pass: testAccount.pass
-        }
-    });
+    // Create email transporter
+    const transporter = await createEmailTransporter();
 
     // Send reset password email
     const resetLink = `${process.env.BASE_URL}/reset-password.html?token=${resetToken}`;
     const mailOptions = {
-        from: '"Test App" <no-reply@test.com>',
+        from: process.env.GMAIL_USER || '"Test App" <no-reply@test.com>',
         to: user.email,
-        subject: 'Reset Your Password',
+        subject: 'Reset Your Password - DataViz',
         html: `
             <h1>Password Reset Request</h1>
             <p>You requested to reset your password. Click the link below to reset it:</p>
-            <a href="${resetLink}">Reset Password</a>
+            <a href="${resetLink}" style="display: inline-block; padding: 10px 20px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 5px;">Reset Password</a>
             <p>This link will expire in 1 hour.</p>
             <p>If you didn't request this, you can safely ignore this email.</p>
         `
@@ -347,8 +340,10 @@ const sendResetPasswordLink = asyncHandler(async (req, res) => {
 
     const info = await transporter.sendMail(mailOptions);
 
-    // Log preview link for testing
-    console.log("Preview Email URL:", nodemailer.getTestMessageUrl(info));
+    // Log preview link for testing (only for Ethereal)
+    if (!process.env.GMAIL_USER) {
+        console.log("Preview Email URL:", nodemailer.getTestMessageUrl(info));
+    }
 
     return res.status(200).json(
         new ApiResponse(
