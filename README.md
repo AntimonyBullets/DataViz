@@ -2,12 +2,9 @@
 
 A robust backend API for data visualization and metric management with user authentication, payment processing, and admin capabilities.
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-success? style=for-the-badge)](https://datavisualisation-alpha-inky.vercel.app/)
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black? style=for-the-badge&logo=vercel)](https://vercel.com)
-
 ## 🌐 Live Demo
 
-Check out the live application:  **[https://datavisualisation-alpha-inky.vercel.app/](https://datavisualisation-alpha-inky. vercel.app/)**
+Check out the live application:  **[https://datavisualisation-alpha-inky.vercel.app/](https://datavisualisation-alpha-inky.vercel.app/)**
 
 ## 📋 Overview
 
