@@ -165,5 +165,3 @@ Contributions, issues, and feature requests are welcome!  Feel free to check the
 Give a ⭐️ if this project helped you!
 
 ---
-
-**Built with ❤️ using Node.js and Express**
