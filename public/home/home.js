@@ -59,6 +59,9 @@ document.addEventListener("DOMContentLoaded", () => {
     errorMessage,
   })
 
+  // Check if user is a guest and show banner
+  checkGuestStatus()
+
   // Handle premium status
   handlePremiumStatus()
 
@@ -163,6 +166,51 @@ document.addEventListener("DOMContentLoaded", () => {
           errorPopup.style.display = "none";
         }, 3000);
       }
+    }
+  }
+
+  // Check if user is a guest and show banner
+  async function checkGuestStatus() {
+    try {
+      const response = await fetch('/api/v1/users/me', {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) return;
+
+      const data = await response.json();
+      const user = data.data;
+
+      if (user && user.isGuest) {
+        // Create and display guest banner
+        const banner = document.createElement('div');
+        banner.className = 'guest-banner';
+        banner.innerHTML = `
+          <div class="guest-banner-content">
+            <svg viewBox="0 0 24 24" class="guest-banner-icon">
+              <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+            </svg>
+            <span>You're using <strong>Guest mode</strong>. <a href="../register/register.html" class="guest-signup-link">Sign up</a> to save your data permanently.</span>
+          </div>
+        `;
+        document.body.insertBefore(banner, document.body.firstChild);
+
+        // Disable upgrade button for guest users
+        const upgradeBtn = document.getElementById("upgradeBtn");
+        if (upgradeBtn) {
+          upgradeBtn.disabled = true;
+          upgradeBtn.style.opacity = '0.5';
+          upgradeBtn.style.cursor = 'not-allowed';
+          upgradeBtn.setAttribute("title", "Sign up for a full account to upgrade to premium");
+          upgradeBtn.removeEventListener("click", navigateToUpgrade);
+        }
+      }
+    } catch (error) {
+      console.error("Error checking guest status:", error);
     }
   }
 })

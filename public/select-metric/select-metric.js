@@ -8,6 +8,7 @@ const errorElement = document.getElementById("error")
 const errorMessage = document.getElementById("errorMessage")
 
 let userType = null
+let isGuest = false
 let upgradePopup = null
 let industries = []
 let selectedIndustry = ""
@@ -138,8 +139,10 @@ async function fetchUserType() {
     if (!response.ok) throw new Error("Failed to fetch user")
     const data = await response.json()
     userType = data.data.type
+    isGuest = data.data.isGuest || false
   } catch (error) {
     userType = null
+    isGuest = false
   }
 }
 
@@ -147,28 +150,49 @@ async function fetchUserType() {
 fetchUserType()
 
 function showUpgradeCard() {
+  const buttonDisabled = isGuest ? 'disabled' : '';
+  const buttonStyle = isGuest 
+    ? 'background: #cbd5e1; color: #64748b; border: none; border-radius: 8px; padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: 600; cursor: not-allowed; opacity: 0.6;'
+    : 'background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; border-radius: 8px; padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s;';
+  const buttonTitle = isGuest ? 'Sign up for a full account to upgrade to premium' : '';
+  const messageText = isGuest 
+    ? 'Sign up for a full account to unlock industry-specific indicators.'
+    : 'Unlock access to industry-specific economic indicators by upgrading to Premium.';
+  
   metricsContainer.innerHTML = `
         <div class="metric-card metric-card-orange" style="max-width: 400px; margin: 2rem auto; text-align: center;">
             <div class="metric-name" style="font-size: 1.2rem; margin-bottom: 1rem;">Industry-specific indicators</div>
             <div class="metric-description" style="margin-bottom: 1.5rem;">
-                Unlock access to industry-specific economic indicators by upgrading to Premium.
+                ${messageText}
             </div>
-            <button id="upgradeBtn" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; border-radius: 8px; padding: 0.75rem 1.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s;">Upgrade to Premium</button>
+            <button id="upgradeBtn" ${buttonDisabled} title="${buttonTitle}" style="${buttonStyle}">Upgrade to Premium</button>
         </div>
     `
-  document.getElementById("upgradeBtn").onclick = () => {
-    window.location.href = "../package-offer/package-offer.html"
+  
+  if (!isGuest) {
+    document.getElementById("upgradeBtn").onclick = () => {
+      window.location.href = "../package-offer/package-offer.html"
+    }
   }
 }
 
 function showUpgradePopup(targetSidebar) {
+  const buttonDisabled = isGuest ? 'disabled' : '';
+  const buttonStyle = isGuest 
+    ? 'background: #cbd5e1; color: #64748b; border: none; border-radius: 8px; padding: 0.5rem 1.1rem; font-size: 0.97rem; font-weight: 600; cursor: not-allowed; opacity: 0.6;'
+    : 'background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; border-radius: 8px; padding: 0.5rem 1.1rem; font-size: 0.97rem; font-weight: 600; cursor: pointer; transition: background 0.2s;';
+  const buttonTitle = isGuest ? 'Sign up for a full account to upgrade to premium' : '';
+  const messageText = isGuest 
+    ? 'Sign up for a full account to unlock industry-specific indicators.'
+    : 'Unlock access to industry-specific economic indicators by upgrading to Premium.';
+  
   upgradePopup.innerHTML = `
         <div style="background: #fff; max-width: 300px; text-align: center; border-radius: 14px; padding: 1rem 1rem 1.2rem 1rem; font-size: 0.97rem;">
             <div style="font-size: 1rem; font-weight: 600; color: #f59e0b; margin-bottom: 0.7rem;">Industry-specific indicators</div>
             <div style="margin-bottom: 1.1rem; color: #64748b; font-size: 0.93rem;">
-                Unlock access to industry-specific economic indicators by upgrading to Premium.
+                ${messageText}
             </div>
-            <button id="upgradeBtn" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; border-radius: 8px; padding: 0.5rem 1.1rem; font-size: 0.97rem; font-weight: 600; cursor: pointer; transition: background 0.2s;">Upgrade to Premium</button>
+            <button id="upgradeBtn" ${buttonDisabled} title="${buttonTitle}" style="${buttonStyle}">Upgrade to Premium</button>
         </div>
     `
   const rect = targetSidebar.getBoundingClientRect()
@@ -177,8 +201,11 @@ function showUpgradePopup(targetSidebar) {
   upgradePopup.style.top = `${rect.top}px`
   upgradePopup.style.display = "block"
   upgradePopup.style.border = "none"
-  document.getElementById("upgradeBtn").onclick = () => {
-    window.location.href = "../package-offer/package-offer.html"
+  
+  if (!isGuest) {
+    document.getElementById("upgradeBtn").onclick = () => {
+      window.location.href = "../package-offer/package-offer.html"
+    }
   }
 }
 

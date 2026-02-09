@@ -12,6 +12,61 @@ body {
   color: #1e293b;
 }
 
+/* Guest Banner Styles */
+.guest-banner {
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border-bottom: 2px solid #f59e0b;
+  padding: 0.875rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.guest-banner-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #92400e;
+  font-size: 0.95rem;
+}
+
+.guest-banner-icon {
+  width: 24px;
+  height: 24px;
+  fill: #f59e0b;
+  flex-shrink: 0;
+}
+
+.guest-banner-content strong {
+  color: #78350f;
+  font-weight: 600;
+}
+
+.guest-signup-link {
+  color: #1e40af;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.guest-signup-link:hover {
+  color: #1e3a8a;
+}
+
 .main-content {
   display: flex;
   align-items: center;

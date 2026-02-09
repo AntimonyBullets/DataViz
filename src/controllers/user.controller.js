@@ -198,6 +198,59 @@ const resendVerificationEmail = asyncHandler(async (req, res) => {
     );
 });
 
+const guestLogin = asyncHandler(async (req, res) => {
+    // Generate unique guest credentials
+    const timestamp = Date.now();
+    const randomString = Math.random().toString(36).substring(2, 9);
+    const guestUsername = `guest_${timestamp}_${randomString}`;
+    const guestEmail = `guest_${timestamp}_${randomString}@internal.dataviz.local`;
+    const guestPassword = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+    // Create guest user with auto-verification
+    const guestUser = await User.create({
+        username: guestUsername,
+        email: guestEmail,
+        password: guestPassword,
+        verified: true, // Auto-verify guest accounts
+        isGuest: true,
+        guestCreatedAt: new Date(),
+        type: 'free',
+        status: true
+    });
+
+    if (!guestUser) {
+        throw new ApiError(500, "Failed to create guest account");
+    }
+
+    // Generate access token
+    const accessToken = guestUser.generateAccessToken();
+
+    // Get user data without password
+    const loggedInGuestUser = await User.findById(guestUser._id).select("-password");
+
+    // Set cookie options
+    const options = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days for guest sessions
+    };
+
+    // Set the access token in an HTTP-only cookie
+    res.cookie('accessToken', accessToken, options);
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            {
+                user: loggedInGuestUser,
+                accessToken
+            },
+            "Guest login successful"
+        )
+    );
+});
+
 const loginUser = asyncHandler(async (req, res) => {
     const { emailOrUsername, password } = req.body;
 
@@ -456,6 +509,7 @@ export {
   verifyEmail,
   resendVerificationEmail,
   loginUser,
+  guestLogin,
   sendResetPasswordLink,
   resetPassword,
   logoutUser,

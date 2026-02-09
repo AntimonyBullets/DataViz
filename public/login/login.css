@@ -119,7 +119,7 @@ input:focus {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .login-btn:hover {
@@ -132,6 +132,75 @@ input:focus {
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+}
+
+.divider {
+  text-align: center;
+  margin: 1.25rem 0;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 45%;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.divider span {
+  background: white;
+  padding: 0 1rem;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.guest-login-btn {
+  width: 100%;
+  background: white;
+  color: #3b82f6;
+  border: 2px solid #3b82f6;
+  border-radius: 8px;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.guest-login-btn:hover {
+  background: #eff6ff;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+}
+
+.guest-login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.guest-icon {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
 }
 
 .error-message {

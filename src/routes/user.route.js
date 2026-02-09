@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { registerUser, resendVerificationEmail, verifyEmail, loginUser, sendResetPasswordLink, resetPassword, logoutUser, getCurrentUser } from '../controllers/user.controller.js';
+import { registerUser, resendVerificationEmail, verifyEmail, loginUser, guestLogin, sendResetPasswordLink, resetPassword, logoutUser, getCurrentUser } from '../controllers/user.controller.js';
 import { verifyJWT } from '../middlewares/auth.middleware.js';
 
 
@@ -20,6 +20,10 @@ router
 router
     .route("/login")
     .post(loginUser);
+
+router
+    .route("/guest-login")
+    .post(guestLogin);
 
 router
     .route("/send-reset-password-link")

@@ -37,7 +37,19 @@ const userSchema = new mongoose.Schema({
   verified: {
     type: Boolean,
     default: false, // true = Email verified
-  },  premiumExpiresAt: { 
+  },
+
+  isGuest: {
+    type: Boolean,
+    default: false, // true = Guest account
+  },
+
+  guestCreatedAt: {
+    type: Date,
+    default: null, // Timestamp for guest account creation
+  },
+
+  premiumExpiresAt: { 
     type: Date,
     default: function() {
       // If user is premium, set expiry to 30 days from now
