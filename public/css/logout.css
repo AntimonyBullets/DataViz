@@ -16,7 +16,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  z-index: 10;
+  z-index: 1001;
 }
 
 .logout-btn:hover {

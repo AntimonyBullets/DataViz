@@ -16,8 +16,9 @@ body {
 .guest-banner {
   background: linear-gradient(135deg, #fef3c7, #fde68a);
   border-bottom: 2px solid #f59e0b;
-  padding: 0.875rem 1.5rem;
-  position: sticky;
+  padding: 1.3rem 1.5rem;
+  position: absolute;
+  width: 100%;
   top: 0;
   z-index: 1000;
   animation: slideDown 0.4s ease-out;
